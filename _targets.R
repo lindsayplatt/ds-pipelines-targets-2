@@ -1,6 +1,6 @@
 library(targets)
 source("1_fetch/src/get_nwis_data.R")
-source("2_process/src/process_and_style.R")
+source("2_process/src/munge_nwis_data.R")
 source("3_visualize/src/plot_timeseries.R")
 
 options(tidyverse.quiet = TRUE)
@@ -28,23 +28,15 @@ p1_targets_list <- list(
 
 p2_targets_list <- list(
   tar_target(
-    site_data_clean, 
-    process_data(site_data)
-  ),
-  tar_target(
-    site_data_annotated,
-    annotate_data(site_data_clean, site_filename = site_info_csv)
-  ),
-  tar_target(
-    site_data_styled,
-    style_data(site_data_annotated)
+    site_data_munged,
+    munge_nwis_data(site_data, site_info_csv)
   )
 )
 
 p3_targets_list <- list(
   tar_target(
     figure_1_png,
-    plot_nwis_timeseries(fileout = "3_visualize/out/figure_1.png", site_data_styled),
+    plot_nwis_timeseries(fileout = "3_visualize/out/figure_1.png", site_data_munged),
     format = "file"
   )
 )
