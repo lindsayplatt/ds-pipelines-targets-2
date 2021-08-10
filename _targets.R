@@ -13,22 +13,28 @@ p1_targets_list <- list(
   tar_target(site_data_01436690, download_nwis_site_data('01436690')),
   tar_target(site_data_01466500, download_nwis_site_data('01466500')),
   
-  tar_target(site_data, 
-             list(site_data_01427207, site_data_01432160, site_data_01435000,
-                  site_data_01436690, site_data_01466500) %>% 
-               bind_rows()
+  tar_target(site_data_csv,
+             {
+               out_file <- "1_fetch/out/site_data.csv"
+               list(site_data_01427207, site_data_01432160, site_data_01435000,
+                    site_data_01436690, site_data_01466500) %>% 
+                 bind_rows() %>% 
+                 write_csv(out_file)
+               return(out_file)
+             },
+             format = "file"
   ),
   
   tar_target(
     site_info,
-    nwis_site_info(site_data)
+    nwis_site_info(site_data_csv)
   )
 )
 
 p2_targets_list <- list(
   tar_target(
     site_data_munged,
-    munge_nwis_data(site_data, site_info)
+    munge_nwis_data(site_data_csv, site_info)
   )
 )
 

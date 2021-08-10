@@ -1,6 +1,6 @@
-munge_nwis_data <- function(nwis_data, site_info) {
+munge_nwis_data <- function(nwis_data_filepath, site_info) {
   
-  nwis_data %>% 
+  read_csv(nwis_data_filepath, col_types = 'ccTdccdc') %>% 
     rename(water_temperature = X_00010_00000) %>% 
     select(-agency_cd, -X_00010_00000_cd, -tz_cd) %>% 
     left_join(site_info, by = "site_no") %>% 
