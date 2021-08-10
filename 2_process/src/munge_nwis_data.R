@@ -1,5 +1,4 @@
-munge_nwis_data <- function(nwis_data, site_info_file) {
-  site_info <- read_csv(site_info_file)
+munge_nwis_data <- function(nwis_data, site_info) {
   
   nwis_data %>% 
     rename(water_temperature = X_00010_00000) %>% 
