@@ -4,7 +4,9 @@ source("2_process/src/munge_nwis_data.R")
 source("3_visualize/src/plot_timeseries.R")
 
 options(tidyverse.quiet = TRUE)
-tar_option_set(packages = c("tidyverse", "dataRetrieval")) # Loading tidyverse because we need dplyr, ggplot2, readr, stringr, and purrr
+
+# Loading tidyverse because we need dplyr, ggplot2, readr, stringr, and purrr
+tar_option_set(packages = c("tidyverse", "dataRetrieval")) 
 
 p1_targets_list <- list(
   tar_target(site_data_01427207, download_nwis_site_data('01427207')),
